@@ -10,6 +10,7 @@ import time
 import pytest
 import requests
 
+from weixin.contact.department import Department
 from weixin.contact.token import WeiXin
 
 
@@ -21,10 +22,7 @@ class TestDepartment:
                 "name": "广州研发中心" + str(time.time())[:10],  # 这里要转换成str
                 "parentid": 1,
             }
-            r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
-                              params={"access_token": token},
-                              json=data,
-                              ).json()
+            r = Department.creat(token, data)
             logging.debug(r)
 
     # 在部门ID：1 下面递归创建14个部门
@@ -37,35 +35,21 @@ class TestDepartment:
                 "parentid": parentid,
             }
 
-            r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
-                              params={"access_token": token},
-                              json=data,
-                              # proxies={"https": "http://127.0.0.1:8080",
-                              #          "http": "http://127.0.0.1:8080"},
-                              # verify=False
-                              ).json()
+            r = Department.creat(token, data)
             logging.debug(r)
             parentid = r["id"]
             assert r["errcode"] == 0
 
     # 获取部门列表
     def test_get_department(self, token):
-        r = requests.get("https://qyapi.weixin.qq.com/cgi-bin/department/list",
-                         params={"access_token": token,
-                                 "id": 1,
-                                 }
-                         ).json()
+        r = Department.list(token)
         logging.debug(json.dumps(r, indent=2))
         print(type(json.dumps(r, indent=2)))
 
     # 从ID最大的部门开始 删除部门
     def test_delete_department(self, token):
         for i in range(45):
-            r = requests.get("https://qyapi.weixin.qq.com/cgi-bin/department/delete",
-                             params={"access_token": token,
-                                     "id": 45 - i
-                                     }
-                             )
+            r = Department.delete(token, i)
 
     # 更新部门信息
     def test_put_department(self, token):
@@ -76,12 +60,7 @@ class TestDepartment:
             "parentid": 1,
             "order": 1
         }
-        r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/update",
-                          params={"access_token": token,
-                                  # "id": 3
-                                  },
-                          json=data
-                          )
+        r = Department.update(token, data)
 
     @pytest.mark.parametrize(
         "name", [
@@ -98,9 +77,6 @@ class TestDepartment:
             "parentid": 1,
             "order": 1,
         }
-        r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
-                          params={"access_token": token},
-                          json=data,
-                          ).json()
+        r = Department.creat(token, data)
         logging.debug(r)
         assert r["errcode"] == 0

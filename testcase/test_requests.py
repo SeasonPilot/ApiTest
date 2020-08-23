@@ -72,6 +72,7 @@ class TestRequests:
     def test_xueqiu_list_schema(self):
         url = 'https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json'
         r = requests.get(url,
+                         # params中的参数为请求地址种带的参数
                          params={'category': '1'},
                          cookies={'xq_a_token': '8940234022a656e1c577fe7c1e2791963527562b', 'u': '1844895900'},
                          headers={'User-Agent': 'Xueqiu Android 11.19'}
