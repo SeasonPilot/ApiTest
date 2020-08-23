@@ -1,0 +1,292 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "data": {
+                "pid": -1,
+                "category": 1,
+                "stocks": [
+                    {
+                        "symbol": "SZ159915",
+                        "name": "创业板",
+                        "type": 13,
+                        "remark": "",
+                        "exchange": "SZ",
+                        "created": 1597244421961
+                    },
+                    {
+                        "symbol": "SH512000",
+                        "name": "券商ETF",
+                        "type": 13,
+                        "remark": "",
+                        "exchange": "SH",
+                        "created": 1597244407956
+                    },
+                    {
+                        "symbol": "00030",
+                        "name": "万隆控股集团",
+                        "type": 30,
+                        "remark": "",
+                        "exchange": "HK",
+                        "created": 1597236176240
+                    },
+                    {
+                        "symbol": "08532",
+                        "name": "宝发控股",
+                        "type": 30,
+                        "remark": "",
+                        "exchange": "HK",
+                        "created": 1597236176240
+                    },
+                    {
+                        "symbol": "03333",
+                        "name": "中国恒大",
+                        "type": 30,
+                        "remark": "",
+                        "exchange": "HK",
+                        "created": 1597236176240
+                    }
+                ]
+            },
+            "error_code": 0,
+            "error_description": ""
+        }
+    ],
+    "required": [
+        "data",
+        "error_code",
+        "error_description"
+    ],
+    "properties": {
+        "data": {
+            "$id": "#/properties/data",
+            "type": "object",
+            "title": "The data schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "pid": -1,
+                    "category": 1,
+                    "stocks": [
+                        {
+                            "symbol": "SZ159915",
+                            "name": "创业板",
+                            "type": 13,
+                            "remark": "",
+                            "exchange": "SZ",
+                            "created": 1597244421961
+                        },
+                        {
+                            "symbol": "SH512000",
+                            "name": "券商ETF",
+                            "type": 13,
+                            "remark": "",
+                            "exchange": "SH",
+                            "created": 1597244407956
+                        },
+                        {
+                            "symbol": "00030",
+                            "name": "万隆控股集团",
+                            "type": 30,
+                            "remark": "",
+                            "exchange": "HK",
+                            "created": 1597236176240
+                        },
+                        {
+                            "symbol": "08532",
+                            "name": "宝发控股",
+                            "type": 30,
+                            "remark": "",
+                            "exchange": "HK",
+                            "created": 1597236176240
+                        },
+                        {
+                            "symbol": "03333",
+                            "name": "中国恒大",
+                            "type": 30,
+                            "remark": "",
+                            "exchange": "HK",
+                            "created": 1597236176240
+                        }
+                    ]
+                }
+            ],
+            "required": [
+                "pid",
+                "category",
+                "stocks"
+            ],
+            "properties": {
+                "pid": {
+                    "$id": "#/properties/data/properties/pid",
+                    "type": "integer",
+                    "title": "The pid schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        -1
+                    ]
+                },
+                "category": {
+                    "$id": "#/properties/data/properties/category",
+                    "type": "integer",
+                    "title": "The category schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1
+                    ]
+                },
+                "stocks": {
+                    "$id": "#/properties/data/properties/stocks",
+                    "type": "array",
+                    "title": "The stocks schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "symbol": "SZ159915",
+                                "name": "创业板",
+                                "type": 13,
+                                "remark": "",
+                                "exchange": "SZ",
+                                "created": 1597244421961
+                            },
+                            {
+                                "symbol": "SH512000",
+                                "name": "券商ETF",
+                                "type": 13,
+                                "remark": "",
+                                "exchange": "SH",
+                                "created": 1597244407956
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/data/properties/stocks/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/data/properties/stocks/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "symbol": "SZ159915",
+                                        "name": "创业板",
+                                        "type": 13,
+                                        "remark": "",
+                                        "exchange": "SZ",
+                                        "created": 1597244421961
+                                    }
+                                ],
+                                "required": [
+                                    "symbol",
+                                    "name",
+                                    "type",
+                                    "remark",
+                                    "exchange",
+                                    "created"
+                                ],
+                                "properties": {
+                                    "symbol": {
+                                        "$id": "#/properties/data/properties/stocks/items/anyOf/0/properties/symbol",
+                                        "type": "string",
+                                        "title": "The symbol schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "SZ159915"
+                                        ]
+                                    },
+                                    "name": {
+                                        "$id": "#/properties/data/properties/stocks/items/anyOf/0/properties/name",
+                                        "type": "string",
+                                        "title": "The name schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "创业板"
+                                        ]
+                                    },
+                                    "type": {
+                                        "default": 0,
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "examples": [
+                                            13
+                                        ],
+                                        "title": "The type schema",
+                                        "maximum": 20,
+                                        "minimum": 1
+                                    },
+                                    "remark": {
+                                        "$id": "#/properties/data/properties/stocks/items/anyOf/0/properties/remark",
+                                        "type": "string",
+                                        "title": "The remark schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    },
+                                    "exchange": {
+                                        "$id": "#/properties/data/properties/stocks/items/anyOf/0/properties/exchange",
+                                        "type": "string",
+                                        "title": "The exchange schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "SZ"
+                                        ]
+                                    },
+                                    "created": {
+                                        "$id": "#/properties/data/properties/stocks/items/anyOf/0/properties/created",
+                                        "type": "integer",
+                                        "title": "The created schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0,
+                                        "examples": [
+                                            1597244421961
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "error_code": {
+            "$id": "#/properties/error_code",
+            "type": "integer",
+            "title": "The error_code schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "error_description": {
+            "$id": "#/properties/error_description",
+            "type": "string",
+            "title": "The error_description schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        }
+    },
+    "additionalProperties": true
+}

@@ -11,6 +11,7 @@ import pytest
 from hamcrest import assert_that, any_of, has_item, equal_to, close_to, has_items, all_of
 from jsonpath_ng import parse, jsonpath
 import jsonpath
+from jsonschema import validate
 
 
 class TestRequests:
@@ -68,7 +69,18 @@ class TestRequests:
                     )
                     )
 
-    def test_close(self):
+    def test_xueqiu_list_schema(self):
+        url = 'https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json'
+        r = requests.get(url,
+                         params={'category': '1'},
+                         cookies={'xq_a_token': '8940234022a656e1c577fe7c1e2791963527562b', 'u': '1844895900'},
+                         headers={'User-Agent': 'Xueqiu Android 11.19'}
+                         )
+        logging.info(json.dumps(r.json(), indent=2))
+        schema = json.load(open("list_schema.json", encoding='utf-8'))
+        validate(instance=r.json(), schema=schema)
+
+    def test_hamcrest(self):
         assert_that(0.1 * 0.1, close_to(0.01, 0.1))
         assert_that(['a', 'b', 'c'], has_item('a'))
         assert_that(['a', 'b', 'c'], has_items('b', 'a'))
@@ -86,3 +98,13 @@ class TestRequests:
                 has_items("b", "c")
             )
         )
+
+    def test_schema(self):
+        schema = {
+            "type": "object",
+            "properties": {
+                "price": {"type": "number"},
+                "name": {"type": "string"},
+            },
+        }
+        validate(instance={"name": "Eggs", "price": "34.99"}, schema=schema)

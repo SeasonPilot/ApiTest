@@ -3,14 +3,14 @@
 # 时间：2020/8/20 20:25
 # 文件名：test_department.py.py
 # 开发工具：PyCharm
-import datetime
 import json
 import logging
 import time
 
+import pytest
 import requests
 
-from weixin.token import WeiXin
+from weixin.contact.token import WeiXin
 
 
 class TestDepartment:
@@ -46,6 +46,7 @@ class TestDepartment:
                               ).json()
             logging.debug(r)
             parentid = r["id"]
+            assert r["errcode"] == 0
 
     # 获取部门列表
     def test_get_department(self):
@@ -55,6 +56,7 @@ class TestDepartment:
                                  }
                          ).json()
         logging.debug(json.dumps(r, indent=2))
+        print(type(json.dumps(r, indent=2)))
 
     # 从ID最大的部门开始 删除部门
     def test_delete_department(self):
@@ -80,3 +82,25 @@ class TestDepartment:
                                   },
                           json=data
                           )
+
+    @pytest.mark.parametrize(
+        "name", [
+            "广州研发中心",
+            "東京アニメーション研究所",
+            "도쿄 애니메이션 연구소",
+            "معهد طوكيو للرسوم المتحركة",
+            "東京動漫研究所"
+        ]
+    )
+    def test_create_order(self, name):
+        data = {
+            "name": name,
+            "parentid": 1,
+            "order": 1,
+        }
+        r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
+                          params={"access_token": WeiXin().get_token()},
+                          json=data,
+                          ).json()
+        logging.debug(r)
+        assert r["errcode"] == 0

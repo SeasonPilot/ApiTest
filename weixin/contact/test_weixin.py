@@ -3,7 +3,7 @@
 # 时间：2020/8/18 23:21
 # 文件名：test_weixin.py
 # 开发工具：PyCharm
-from weixin.token import WeiXin
+from weixin.contact.token import WeiXin
 
 
 def test_token():
