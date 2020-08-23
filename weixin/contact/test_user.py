@@ -9,6 +9,8 @@ import time
 import pystache
 import requests
 from weixin.contact.token import WeiXin
+from weixin.contact.user import User
+from weixin.contact.utils import Utils
 
 
 class TestUser:
@@ -17,41 +19,41 @@ class TestUser:
     # 创建成员
     def test_create_user(self):
         uid = str(time.time())
+        # data 的类型为<class 'dict'>，所以传参类型为dict时用json。传参类型为str时用data
         data = {
             "userid": uid,
             "name": uid,
             "mobile": uid[:10] + "1",
             "department": self.depart_id,
         }
-        r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/user/create",
-                          params={"access_token": WeiXin().get_token()},
-                          json=data
-                          ).json()
+        print(type(data))
+        r = User().create(dict=data)
         logging.debug(r)
         assert r["errcode"] == 0
 
     # 获取部门成员
     def test_userlist(self):
-        r = requests.get(
-            "https://qyapi.weixin.qq.com/cgi-bin/user/simplelist",
-            # "department_id": 1 要写到params里，不是json参数里。  “department_id”在请求地址中
-            params={"access_token": WeiXin().get_token(),
-                    "department_id": 1,
-                    "fetch_child": 1
-                    },
-        ).json()
+        r = User().list()
         logging.debug(r)
         assert r["errcode"] == 0
 
     # 使用模板创建成员
-    def test_creat_by_template(self):
-        data = self.get_user({"name": "Season", "title": "校长", "email": str(time.time())[:10] + "111@qq.com"})
+    def test_creat_by_real(self):
+        uid = str(time.time()).replace(".", "")[:11]
+        # parse()返回值类型为str，所以data类型也是str,不是json。
+        # 所以传参类型为dict时用json。传参类型为str时用data
+        data = Utils().parse(template_path="user_create.json",
+                             dict=
+                             {"name": "Season",
+                              "userid": uid,
+                              "title": "校长",
+                              "email": uid + "111@qq.com",
+                              "mobile": uid
+                              }
+                             )
         # 增加编码格式
         data = data.encode("UTF-8")
-        r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/user/create",
-                          params={"access_token": WeiXin().get_token()},
-                          data=data
-                          ).json()
+        r = User().create(data=data)
         logging.debug(r)
         assert r["errcode"] == 0
 
@@ -72,14 +74,3 @@ class TestUser:
                                }
                               )
               )
-
-    # 使用字典替换user_create.json文件中的{{}}中的内容
-    def get_user(self, dict):
-        template = "".join(open("user_create.json", encoding="utf-8").readlines())
-        logging.debug(template)
-        print(type(pystache.render(template, dict)))
-        return pystache.render(template, dict)
-
-    # 测试 get_user
-    def test_get_user(self):
-        logging.debug(self.get_user({"name": "Season", "title": "校长", "email": str(time.time())[:10] + "111@qq.com"}))
