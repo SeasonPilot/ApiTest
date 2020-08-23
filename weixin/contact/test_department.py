@@ -15,20 +15,20 @@ from weixin.contact.token import WeiXin
 
 class TestDepartment:
     # 在部门ID：1 下面创建多个部门
-    def test_create_depth(self):
+    def test_create_depth(self, token):
         for i in range(14):
             data = {
                 "name": "广州研发中心" + str(time.time())[:10],  # 这里要转换成str
                 "parentid": 1,
             }
             r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
-                              params={"access_token": WeiXin().get_token()},
+                              params={"access_token": token},
                               json=data,
                               ).json()
             logging.debug(r)
 
     # 在部门ID：1 下面递归创建14个部门
-    def test_create_depth1(self):
+    def test_create_depth1(self, token):
         parentid = 1
 
         for i in range(14):
@@ -38,7 +38,7 @@ class TestDepartment:
             }
 
             r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
-                              params={"access_token": WeiXin().get_token()},
+                              params={"access_token": token},
                               json=data,
                               # proxies={"https": "http://127.0.0.1:8080",
                               #          "http": "http://127.0.0.1:8080"},
@@ -49,9 +49,9 @@ class TestDepartment:
             assert r["errcode"] == 0
 
     # 获取部门列表
-    def test_get_department(self):
+    def test_get_department(self, token):
         r = requests.get("https://qyapi.weixin.qq.com/cgi-bin/department/list",
-                         params={"access_token": WeiXin().get_token(),
+                         params={"access_token": token,
                                  "id": 1,
                                  }
                          ).json()
@@ -59,16 +59,16 @@ class TestDepartment:
         print(type(json.dumps(r, indent=2)))
 
     # 从ID最大的部门开始 删除部门
-    def test_delete_department(self):
+    def test_delete_department(self, token):
         for i in range(45):
             r = requests.get("https://qyapi.weixin.qq.com/cgi-bin/department/delete",
-                             params={"access_token": WeiXin().get_token(),
+                             params={"access_token": token,
                                      "id": 45 - i
                                      }
                              )
 
     # 更新部门信息
-    def test_put_department(self):
+    def test_put_department(self, token):
         data = {
             "id": 2,
             "name": "广州研seaosn gasfasjkfla发中心",
@@ -77,7 +77,7 @@ class TestDepartment:
             "order": 1
         }
         r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/update",
-                          params={"access_token": WeiXin().get_token(),
+                          params={"access_token": token,
                                   # "id": 3
                                   },
                           json=data
@@ -92,14 +92,14 @@ class TestDepartment:
             "東京動漫研究所"
         ]
     )
-    def test_create_order(self, name):
+    def test_create_order(self, name, token):
         data = {
             "name": name,
             "parentid": 1,
             "order": 1,
         }
         r = requests.post("https://qyapi.weixin.qq.com/cgi-bin/department/create",
-                          params={"access_token": WeiXin().get_token()},
+                          params={"access_token": token},
                           json=data,
                           ).json()
         logging.debug(r)
