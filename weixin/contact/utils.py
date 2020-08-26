@@ -4,6 +4,7 @@
 # 文件名：utils.py
 # 开发工具：PyCharm
 import logging
+import time
 
 import pystache
 
@@ -16,3 +17,6 @@ class Utils:
         # 返回值类型为str
         print(type(pystache.render(template, dict)))
         return pystache.render(template, dict)
+    @classmethod
+    def uid(cls):
+        return str(time.time()).replace(".", "")[:11]

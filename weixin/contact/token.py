@@ -25,3 +25,24 @@ class WeiXin:
                          ).json()
         # 这里要return 的是 token
         return r["access_token"]
+
+    def get_pig_token(self):
+        conf = yaml.safe_load(open("weixin.yaml"))
+        r = requests.get("https://qyapi.weixin.qq.com/cgi-bin/gettoken",
+                         params={
+                             'corpid': conf['env']['corpid'],
+                             'corpsecret': conf['pig']['Secret']
+                         }
+                         ).json()
+        # 这里要return 的是 token
+        return r["access_token"]
+
+    def get_checkin_token(self):
+        conf = yaml.safe_load(open("weixin.yaml"))
+        r = requests.get("https://qyapi.weixin.qq.com/cgi-bin/gettoken",
+                         params={
+                             'corpid': conf['env']['corpid'],
+                             'corpsecret': conf['checkin']['Secret']
+                         }
+                         ).json()
+        return r["access_token"]
